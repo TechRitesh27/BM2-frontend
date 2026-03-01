@@ -3,9 +3,13 @@ import Navbar from "./components/Navbar";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
 import AdminDashboard from "./dashboards/AdminDashboard";
-import StaffDashboard from "./dashboards/StaffDashboard";
 import CustomerDashboard from "./dashboards/CustomerDashboard";
 import ProtectedRoute from "./auth/ProtectedRoute";
+
+import StaffLayout from "./layouts/StaffLayout";
+import StaffDashboard from "./pages/staff/StaffDashboard";
+import PendingServices from "./pages/staff/PendingServices";
+import MyAssignments from "./pages/staff/MyAssignments";
 
 function App() {
   return (
@@ -24,14 +28,19 @@ function App() {
           }
         />
 
+        {/* ✅ Nested Staff Routes */}
         <Route
           path="/staff"
           element={
             <ProtectedRoute role="STAFF">
-              <StaffDashboard />
+              <StaffLayout />
             </ProtectedRoute>
           }
-        />
+        >
+          <Route path="dashboard" element={<StaffDashboard />} />
+          <Route path="pending" element={<PendingServices />} />
+          <Route path="my-assignments" element={<MyAssignments />} />
+        </Route>
 
         <Route
           path="/customer"
