@@ -1,20 +1,21 @@
 import { Box } from "@mui/material";
 import { Outlet } from "react-router-dom";
 
-import StaffSidebar from "../pages/staff/components/StaffSidebar";
+import AdminSidebar from "../pages/admin/components/AdminSidebar";
 
-export default function StaffLayout() {
+const AdminLayout = () => {
 
   return (
     <Box sx={{ display: "flex", minHeight: "100vh" }}>
 
-      <StaffSidebar />
+      <AdminSidebar />
 
       <Box
         sx={{
-          flex: 1,
+          flexGrow: 1,
           p: 3,
-          backgroundColor: "#f5f5f5"
+          backgroundColor: "#f5f5f5",
+          minHeight: "100vh"
         }}
       >
         <Outlet />
@@ -22,5 +23,6 @@ export default function StaffLayout() {
 
     </Box>
   );
+};
 
-}
+export default AdminLayout;

@@ -6,50 +6,62 @@ import {
   Button,
   Typography,
   Box,
-  Paper
+  Paper,
+  CircularProgress
 } from "@mui/material";
+
 import { useAuth } from "../auth/AuthContext";
 
 const Login = () => {
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
 
-  const { login } = useAuth();
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const { login, user } = useAuth();
   const navigate = useNavigate();
 
-  // ✅ Redirect if already logged in
+  // Redirect if already logged in
   useEffect(() => {
-    const token = localStorage.getItem("accessToken");
-    const role = localStorage.getItem("role");
+    if (!user) return;
 
-    if (token && role) {
-      if (role === "ADMIN") navigate("/admin");
-      else if (role === "STAFF") navigate("/staff");
-      else if (role === "GUEST") navigate("/customer");
+    if (user.role === "ADMIN") navigate("/admin");
+    else if (user.role === "STAFF") navigate("/staff");
+    else navigate("/customer");
 
-    }
-  }, [navigate]);
+  }, [user, navigate]);
 
   const handleSubmit = async (e) => {
+
     e.preventDefault();
     setError("");
+    setLoading(true);
 
     try {
-      await login(email, password);
-      const role = localStorage.getItem("role");
 
-      if (role === "ADMIN") navigate("/admin");
-      else if (role === "STAFF") navigate("/staff");
-      else if (role === "GUEST") navigate("/customer");
+      const data = await login(email, password);
 
-    } catch (err) {
+      if (data.role === "ADMIN") navigate("/admin");
+      else if (data.role === "STAFF") navigate("/staff");
+      else navigate("/customer");
+
+    } catch {
+
       setError("Invalid email or password");
+
+    } finally {
+
+      setLoading(false);
+
     }
+
   };
 
   return (
     <Container maxWidth="sm">
+
       <Box
         sx={{
           minHeight: "100vh",
@@ -58,7 +70,9 @@ const Login = () => {
           justifyContent: "center"
         }}
       >
-        <Paper elevation={4} sx={{ padding: 4, width: "100%" }}>
+
+        <Paper elevation={4} sx={{ p: 4, width: "100%" }}>
+
           <Typography variant="h5" align="center" mb={3}>
             Hotel Automation Login
           </Typography>
@@ -70,6 +84,7 @@ const Login = () => {
           )}
 
           <form onSubmit={handleSubmit}>
+
             <TextField
               fullWidth
               label="Email"
@@ -95,12 +110,17 @@ const Login = () => {
               variant="contained"
               sx={{ mt: 3 }}
               type="submit"
+              disabled={loading}
             >
-              Login
+              {loading ? <CircularProgress size={24} /> : "Login"}
             </Button>
+
           </form>
+
         </Paper>
+
       </Box>
+
     </Container>
   );
 };

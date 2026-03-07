@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import StaffStatsCards from "../../components/StaffStatsCards";
+import StaffStatsCards from "./components/StaffStatsCards";
 
 export default function StaffDashboard() {
   const [data, setData] = useState(null);
