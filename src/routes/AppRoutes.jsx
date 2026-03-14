@@ -3,6 +3,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 /* Public Pages */
 import Home from "../pages/Home";
 import Login from "../pages/Login";
+import Register from "../pages/Register";
 
 /* Auth */
 import ProtectedRoute from "../auth/ProtectedRoute";
@@ -17,8 +18,14 @@ import AdminBookings from "../pages/admin/bookings/AdminBookings";
 import AdminUsers from "../pages/admin/users/AdminUsers";
 import AdminPayments from "../pages/admin/payments/AdminPayments";
 
-/* Customer */
+/* Customer Layout */
+import CustomerLayout from "../layouts/CustomerLayout";
+
+/* Customer Pages */
 import CustomerDashboard from "../pages/customer/CustomerDashboard";
+import SearchRooms from "../pages/customer/rooms/SearchRooms";
+import MyServiceRequests from "../pages/customer/services/MyServiceRequests";
+
 
 /* Staff Layout */
 import StaffLayout from "../layouts/StaffLayout";
@@ -41,12 +48,10 @@ import HousekeepingDashboard from "../pages/staff/housekeeping/HousekeepingDashb
 import RoomCleaningPage from "../pages/staff/housekeeping/RoomCleaningPage";
 
 function AppRoutes() {
-
   const token = localStorage.getItem("accessToken");
 
   return (
     <Routes>
-
       {/* PUBLIC ROUTES */}
       <Route path="/" element={<Home />} />
 
@@ -55,6 +60,7 @@ function AppRoutes() {
         path="/login"
         element={token ? <Navigate to="/" replace /> : <Login />}
       />
+      <Route path="/register" element={<Register />} />
 
       {/* ================= ADMIN ================= */}
       <Route
@@ -109,14 +115,24 @@ function AppRoutes() {
         path="/customer"
         element={
           <ProtectedRoute role="GUEST">
-            <CustomerDashboard />
+            <CustomerLayout />
           </ProtectedRoute>
         }
-      />
+      >
+        <Route index element={<CustomerDashboard />} />
+        <Route path="rooms" element={<SearchRooms />} />
+        <Route
+          path="/customer/services"
+          element={
+            <ProtectedRoute role="GUEST">
+              <MyServiceRequests />
+            </ProtectedRoute>
+          }
+        />
+      </Route>
 
       {/* 404 FALLBACK */}
       <Route path="*" element={<Navigate to="/" />} />
-
     </Routes>
   );
 }

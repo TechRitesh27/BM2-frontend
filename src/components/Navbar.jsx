@@ -34,8 +34,12 @@ const Navbar = () => {
           sx={{ flexGrow: 1, cursor: "pointer" }}
           onClick={() => navigate("/")}
         >
-          Hotel Automation
+          BM Group of Hotels
         </Typography>
+
+        <Button color="inherit" onClick={() => navigate("/")}>
+          Home
+        </Button>
 
         {!user && (
           <Button
@@ -43,6 +47,15 @@ const Navbar = () => {
             onClick={() => navigate("/login")}
           >
             Login
+          </Button>
+        )}
+
+        {!user && (
+          <Button
+            color="inherit"
+            onClick={() => navigate("/register")}
+          >
+            Register
           </Button>
         )}
 
