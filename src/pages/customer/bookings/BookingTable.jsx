@@ -7,54 +7,62 @@ import {
   Paper
 } from "@mui/material";
 
-export default function ServiceRequestTable({ services }) {
+export default function BookingTable({ bookings }) {
 
-  const rows = services || [];
+  const rows = bookings || [];
 
   return (
     <Paper sx={{ p: 2 }}>
+
       <Table>
 
         <TableHead>
           <TableRow>
             <TableCell>ID</TableCell>
-            <TableCell>Service</TableCell>
+            <TableCell>Room</TableCell>
+            <TableCell>Check In</TableCell>
+            <TableCell>Check Out</TableCell>
             <TableCell>Status</TableCell>
-            <TableCell>Requested At</TableCell>
-            <TableCell>Completed</TableCell>
+            <TableCell>Total</TableCell>
           </TableRow>
         </TableHead>
 
         <TableBody>
-          {rows.map((s) => (
-            <TableRow key={s.id}>
-              <TableCell>{s.id}</TableCell>
+
+          {rows.map((b) => (
+
+            <TableRow key={b.id}>
+
+              <TableCell>{b.id}</TableCell>
 
               <TableCell>
-                {s.serviceType?.name}
+                {b.room?.roomNumber}
               </TableCell>
 
               <TableCell>
-                {s.status}
+                {b.checkIn}
               </TableCell>
 
               <TableCell>
-                {s.requestedAt
-                  ? new Date(s.requestedAt).toLocaleString()
-                  : "-"}
+                {b.checkOut}
               </TableCell>
 
               <TableCell>
-                {s.completedAt
-                  ? new Date(s.completedAt).toLocaleString()
-                  : "-"}
+                {b.status}
+              </TableCell>
+
+              <TableCell>
+                ₹{b.totalAmount}
               </TableCell>
 
             </TableRow>
+
           ))}
+
         </TableBody>
 
       </Table>
+
     </Paper>
   );
 }

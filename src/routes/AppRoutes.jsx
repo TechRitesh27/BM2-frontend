@@ -25,6 +25,8 @@ import CustomerLayout from "../layouts/CustomerLayout";
 import CustomerDashboard from "../pages/customer/CustomerDashboard";
 import SearchRooms from "../pages/customer/rooms/SearchRooms";
 import MyServiceRequests from "../pages/customer/services/MyServiceRequests";
+import CustomerBill from "../pages/customer/billing/CustomerBill";
+import MyBookings from "../pages/customer/bookings/MyBookings";
 
 
 /* Staff Layout */
@@ -121,6 +123,10 @@ function AppRoutes() {
       >
         <Route index element={<CustomerDashboard />} />
         <Route path="rooms" element={<SearchRooms />} />
+        <Route path="/customer/bill" element={<CustomerBill />} />
+        <Route path="/customer/bookings" element={<MyBookings />} />
+
+
         <Route
           path="/customer/services"
           element={
