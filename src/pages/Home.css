@@ -1,0 +1,408 @@
+html{
+scroll-behavior:smooth;
+}
+section,
+#home,
+#about,
+#rooms,
+#contact{
+scroll-margin-top:100px;
+}
+
+/* NAVBAR */
+
+.navbar{
+background:rgba(255,255,255,0.6) !important;
+backdrop-filter:blur(8px);
+-webkit-backdrop-filter:blur(8px);
+height:80px;
+display:flex;
+justify-content:center;
+}
+
+.nav-container{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:12px 60px;
+}
+
+.logo{
+font-size:30px;
+font-weight:bold;
+color:BLACK;
+letter-spacing:2px;
+}
+
+.nav-links button{
+color:#caa169 !important;
+margin:0 14px;
+font-size:24px;
+text-transform: none !important;
+}
+
+.nav-links button:hover{
+color:#caa169 !important;
+background:transparent !important;
+}
+
+.book-btn{
+background:#caa169 !important;
+padding:8px 22px !important;
+}
+body{
+margin:0;
+padding-top:80px;
+}
+
+/* HERO */
+
+.hero{
+height:90vh;
+background-size:cover;
+background-position:center;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+.hero-overlay{
+text-align:center;
+color:white;
+}
+
+.hero-title{
+font-size:60px !important;
+font-weight:bold !important;
+}
+
+.hero-subtitle{
+font-size:22px !important;
+margin-top:15px !important;
+}
+
+.hero-btn{
+margin-top:25px !important;
+background:#caa169 !important;
+}
+
+
+/* BOOKING */
+
+.booking-container{
+margin-top:-60px;
+background:white;
+padding:30px;
+box-shadow:0 10px 30px rgba(0,0,0,0.1);
+}
+
+.check-btn{
+background:#caa169 !important;
+color:white !important;
+width:100%;
+height:56px;
+}
+
+/* ABOUT */
+
+.about-section{
+margin-top:5px;
+}
+
+.about-container{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:80px;
+flex-wrap:wrap;
+height:90vh;
+}
+
+/* IMAGE AREA */
+
+.about-images{
+position:relative;
+width:45%;
+min-width:320px;
+}
+
+.about-img-main{
+width:100%;
+border-radius:6px;
+}
+
+.about-img-small{
+width:65%;
+position:absolute;
+bottom:-40px;
+right:-40px;
+border:8px solid white;
+border-radius:6px;
+box-shadow:0 15px 35px rgba(0,0,0,0.2);
+}
+
+/* TEXT AREA */
+
+.about-text-box{
+width:45%;
+min-width:320px;
+display:flex;
+flex-direction:column;
+justify-content:center;
+}
+
+.about-subtitle{
+color:#caa169;
+letter-spacing:3px;
+font-size:40px !important;
+font-weight:bold !important;
+margin-bottom:10px;
+}
+
+.about-title{
+font-size:42px;
+font-weight:bold;
+margin-bottom:20px;
+}
+
+.about-text{
+color:#666;
+line-height:1.8;
+margin-bottom:16px;
+}
+
+.about-btn{
+margin-top: 20px !important;
+background:#caa169 !important;
+color:white !important;
+padding:10px 28px !important;
+}
+
+/* FEATURES */
+
+.features-section{
+margin-top:10px;
+}
+
+.feature-container{
+text-align:center;
+}
+
+.features-title{
+font-size:40px !important;
+font-weight:bold !important;
+color:#caa169;
+margin-bottom:50px;
+letter-spacing:2px;
+}
+
+.feature-box{
+padding:25px;
+text-align:center;
+transition:0.3s;
+}
+
+.feature-box:hover{
+transform:translateY(-8px);
+}
+
+.feature-heading{
+font-weight:600 !important;
+margin-bottom:10px !important;
+}
+
+.feature-text{
+color:#666;
+line-height:1.7;
+}
+
+
+/* ROOMS */
+
+.rooms-section{
+margin-top:120px;
+}
+
+.section-title{
+font-size:40px !important;
+font-weight:bold !important;
+color:#caa169;
+margin-bottom:40px !important;
+}
+
+.center{
+text-align:center;
+}
+
+
+.room-card:hover{
+transform:translateY(-10px);
+box-shadow:0 10px 25px rgba(0,0,0,0.15);
+}
+
+/* TESTIMONIALS */
+
+.testimonials-section {
+  margin-top: 120px;
+  position: relative;
+  text-align: center;
+  padding: 60px 0;
+}
+
+.testimonial-watermark {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 100px !important;
+  font-weight: bold !important;
+  font-style: italic;
+  color: #e1caaa;
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+  line-height: 1;
+}
+
+.testimonial-slider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  position: relative;
+  z-index: 1;
+  padding: 40px 0 20px;
+}
+
+.testimonial-content {
+  max-width: 720px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.testimonial-avatar-wrap {
+  position: relative;
+  display: inline-block;
+}
+
+.testimonial-avatar {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #eee;
+}
+
+.testimonial-quote-icon {
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+  background: #555;
+  color: white;
+  font-size: 14px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.testimonial-text {
+  font-size: 18px !important;
+  color: #444;
+  line-height: 1.9 !important;
+  text-align: center;
+}
+
+.testimonial-stars {
+  display: flex;
+  gap: 4px;
+}
+
+.star {
+  color: #caa169;
+  font-size: 24px;
+}
+
+.testimonial-name {
+  font-size: 15px !important;
+  color: #333;
+  letter-spacing: 1px;
+}
+
+.testimonial-role {
+  color: #caa169;
+  font-weight: normal;
+}
+
+.testimonial-arrow {
+  background: none;
+  border: none;
+  font-size: 40px;
+  color: #bbb;
+  cursor: pointer;
+  padding: 0 10px;
+  line-height: 1;
+  transition: color 0.2s;
+}
+
+.testimonial-arrow:hover {
+  color: #caa169;
+}
+
+/* CONTACT SECTION */
+
+.contact-section{
+margin-top:120px;
+}
+
+.contact-container{
+margin-top:40px;
+
+}
+
+/* FORM */
+
+.contact-form{
+width:100%;
+}
+
+/* MAP */
+
+.map-container{
+width:100%;
+height:100%;
+}
+
+.map-container iframe{
+width:100%;
+height:420px;
+border-radius:6px;
+box-shadow:0 10px 25px rgba(0,0,0,0.15);
+}
+
+/* BUTTON */
+
+.contact-btn{
+background:#caa169 !important;
+color:white !important;
+padding:12px 35px !important;
+}
+
+.contact-btn:hover{
+background:#b8925c !important;
+}
+
+/* FOOTER */
+
+.footer{
+margin-top:120px;
+background:#111;
+color:white;
+text-align:center;
+padding:40px;
+}
