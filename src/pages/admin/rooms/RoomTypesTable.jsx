@@ -75,6 +75,9 @@ const RoomTypesTable = () => {
             <TableCell>Description</TableCell>
             <TableCell>Base Price</TableCell>
             <TableCell>Capacity</TableCell>
+            <TableCell>Bed Type</TableCell>
+            <TableCell>Room Size</TableCell>
+            <TableCell>Priority</TableCell>
             <TableCell>Active</TableCell>
             <TableCell>Action</TableCell>
           </TableRow>
@@ -86,8 +89,11 @@ const RoomTypesTable = () => {
               <TableCell>{type.id}</TableCell>
               <TableCell>{type.name}</TableCell>
               <TableCell>{type.description}</TableCell>
-              <TableCell>{type.basePrice}</TableCell>
+              <TableCell>₹{type.basePrice}</TableCell>
               <TableCell>{type.capacity}</TableCell>
+              <TableCell>{type.bedType}</TableCell>
+              <TableCell>{type.roomSize} m²</TableCell>
+              <TableCell>{type.priority}</TableCell>
               <TableCell>{type.active ? "Yes" : "No"}</TableCell>
 
               <TableCell>

@@ -61,7 +61,11 @@ const AdminBookings = () => {
             <TableRow key={b.id}>
               <TableCell>{b.id}</TableCell>
               <TableCell>{b.user?.email}</TableCell>
-              <TableCell>{b.room?.roomNumber}</TableCell>
+
+              <TableCell>
+                {b.room?.roomNumber} ({b.room?.roomType?.name})
+              </TableCell>
+
               <TableCell>{b.checkIn}</TableCell>
               <TableCell>{b.checkOut}</TableCell>
               <TableCell>{b.totalAmount}</TableCell>
@@ -85,6 +89,7 @@ const AdminBookings = () => {
                   Cancel
                 </Button>
               </TableCell>
+
             </TableRow>
           ))}
         </TableBody>
