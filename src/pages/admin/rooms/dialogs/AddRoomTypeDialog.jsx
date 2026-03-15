@@ -16,6 +16,11 @@ const AddRoomTypeDialog = ({ open, onClose, onSaved }) => {
   const [description, setDescription] = useState("");
   const [basePrice, setBasePrice] = useState("");
   const [capacity, setCapacity] = useState("");
+  const [bedType, setBedType] = useState("");
+  const [roomSize, setRoomSize] = useState("");
+  const [amenities, setAmenities] = useState("");
+  const [priority, setPriority] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
 
   const handleSave = async () => {
 
@@ -23,7 +28,12 @@ const AddRoomTypeDialog = ({ open, onClose, onSaved }) => {
       name,
       description,
       basePrice,
-      capacity
+      capacity,
+      bedType,
+      roomSize,
+      amenities,
+      priority,
+      imageUrl
     });
 
     onSaved();
@@ -69,6 +79,48 @@ const AddRoomTypeDialog = ({ open, onClose, onSaved }) => {
           margin="normal"
           value={capacity}
           onChange={e => setCapacity(e.target.value)}
+        />
+
+        <TextField
+          label="Bed Type"
+          fullWidth
+          margin="normal"
+          value={bedType}
+          onChange={e => setBedType(e.target.value)}
+        />
+
+        <TextField
+          label="Room Size (m²)"
+          type="number"
+          fullWidth
+          margin="normal"
+          value={roomSize}
+          onChange={e => setRoomSize(e.target.value)}
+        />
+
+        <TextField
+          label="Amenities (comma separated)"
+          fullWidth
+          margin="normal"
+          value={amenities}
+          onChange={e => setAmenities(e.target.value)}
+        />
+
+        <TextField
+          label="Priority"
+          type="number"
+          fullWidth
+          margin="normal"
+          value={priority}
+          onChange={e => setPriority(e.target.value)}
+        />
+
+        <TextField
+          label="Image URL"
+          fullWidth
+          margin="normal"
+          value={imageUrl}
+          onChange={e => setImageUrl(e.target.value)}
         />
 
       </DialogContent>

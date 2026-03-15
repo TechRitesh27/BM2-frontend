@@ -16,7 +16,7 @@ export default function SearchRooms() {
 
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
-  const [rooms, setRooms] = useState([]);
+  const [roomTypes, setRoomTypes] = useState([]);
 
   const searchRooms = async () => {
 
@@ -30,7 +30,7 @@ export default function SearchRooms() {
         }
       );
 
-      setRooms(res.data);
+      setRoomTypes(res.data);
 
     } catch (err) {
       console.error("Failed to search rooms", err);
@@ -79,14 +79,16 @@ export default function SearchRooms() {
 
       <Grid container spacing={3}>
 
-        {rooms.map((room) => (
+        {roomTypes.map((type) => (
 
-          <Grid item xs={12} md={3} key={room.id}>
+          <Grid item xs={12} md={3} key={type.roomTypeId}>
+
             <RoomCard
-              room={room}
+              roomType={type}
               checkIn={checkIn}
               checkOut={checkOut}
             />
+
           </Grid>
 
         ))}
