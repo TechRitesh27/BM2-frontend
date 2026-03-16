@@ -15,66 +15,72 @@ const Navbar = () => {
   const { user, logout } = useAuth();
 
   const goDashboard = () => {
-
     if (!user) return;
 
     if (user.role === "ADMIN") navigate("/admin");
     else if (user.role === "STAFF") navigate("/staff");
     else navigate("/customer");
+  };
 
+  const navButtonStyle = {
+    color: "black",
+    textTransform: "none",
+    fontSize: "16px",
+    "&:hover": {
+      color: "#d1800d",
+      background: "transparent"
+    }
   };
 
   return (
-    <AppBar position="static">
-
+    <AppBar
+      position="static"
+      sx={{
+        background: "rgba(221, 191, 138, 0.35)",
+        backdropFilter: "blur(8px)",
+        color: "black",
+        boxShadow: "none"
+      }}
+    >
       <Toolbar>
 
         <Typography
           variant="h6"
-          sx={{ flexGrow: 1, cursor: "pointer" }}
+          sx={{ flexGrow: 1, cursor: "pointer", color: "black" }}
           onClick={() => navigate("/")}
         >
           BM Group of Hotels
         </Typography>
 
-        <Button color="inherit" onClick={() => navigate("/")}>
+        <Button sx={navButtonStyle} onClick={() => navigate("/")}>
           Home
         </Button>
 
         {!user && (
-          <Button
-            color="inherit"
-            onClick={() => navigate("/login")}
-          >
+          <Button sx={navButtonStyle} onClick={() => navigate("/login")}>
             Login
           </Button>
         )}
 
         {!user && (
-          <Button
-            color="inherit"
-            onClick={() => navigate("/register")}
-          >
+          <Button sx={navButtonStyle} onClick={() => navigate("/register")}>
             Register
           </Button>
         )}
 
         {user && (
           <Box>
-
-            <Button color="inherit" onClick={goDashboard}>
+            <Button sx={navButtonStyle} onClick={goDashboard}>
               Dashboard
             </Button>
 
-            <Button color="inherit" onClick={logout}>
+            <Button sx={navButtonStyle} onClick={logout}>
               Logout
             </Button>
-
           </Box>
         )}
 
       </Toolbar>
-
     </AppBar>
   );
 };

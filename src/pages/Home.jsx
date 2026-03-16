@@ -38,53 +38,24 @@ const Home = () => {
 const testimonials = [
   {
     text: "Our stay at the hotel was wonderful. The rooms were comfortable, the service was excellent, and the staff were extremely friendly. We would definitely visit again.",
-    name: "CLIFFORD FRAZIER",
+    name: "Rudra ",
     role: "Regular Client",
   },
   {
     text: "Exceptional service and stunning rooms. The staff was incredibly attentive and made our anniversary stay truly unforgettable. We will definitely be returning soon.",
     rating: 5,
-    name: "SARAH MITCHELL",
+    name: "Tina Rajput",
     role: "Guest",
   },
   {
     text: "From the moment we arrived, everything was perfect. The ambiance, the food, the comfort — BM Group Of Hotels exceeded every expectation we had.",
     rating: 4,
-    name: "JAMES THORNTON",
+    name: "Akshay Kumar",
     role: "Business Traveler",
   },
 ];
   return (
     <Box>
-
-      {/* NAVBAR */}
-
-      <AppBar position="fixed" className="navbar">
-        
-        <Toolbar className="nav-container">
- 
-          <Typography className="logo">
-            BM GROUP OF HOTELS
-          </Typography>
-
-          <Box className="nav-links">
-            <Button href="#home">Home</Button>
-            <Button href="#about">About</Button>
-            <Button href="#rooms">Rooms</Button>
-            <Button href="#contact">Contact</Button>
-          </Box>
-
-          <Button
-            variant="contained"
-            className="book-btn"
-            onClick={handleStart}
-          >
-            Book Now
-          </Button>
-
-        </Toolbar>
-      </AppBar>
-
 
       {/* HERO */}
 
@@ -103,13 +74,7 @@ const testimonials = [
             Discover the perfect hotel for your stay
           </Typography>
 
-          <Button
-            variant="contained"
-            className="hero-btn"
-            onClick={handleStart}
-          >
-            Book A Room
-          </Button>
+
 
         </Box>
       </Box>
@@ -146,6 +111,11 @@ const testimonials = [
           <Grid item xs={12} md={3}>
             <Button className="check-btn">
               Check Availability
+            </Button>
+          </Grid>
+          <Grid item xs={12} md={3}>
+            <Button className="check-btn" href="#contact">
+              Contact Us
             </Button>
           </Grid>
 
