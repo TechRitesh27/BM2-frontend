@@ -4,7 +4,11 @@ import {
   CardContent,
   Typography,
   Button,
-  Stack
+  Stack,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions
 } from "@mui/material";
 
 import api from "../../../api/axios";
@@ -12,21 +16,30 @@ import api from "../../../api/axios";
 export default function RoomCard({ roomType, checkIn, checkOut }) {
 
   const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [upgrade, setUpgrade] = useState(null);
 
-  const bookRoom = async () => {
+  // Calculate nights
+  const getNights = () => {
+    if (!checkIn || !checkOut) return 0;
+    const d1 = new Date(checkIn);
+    const d2 = new Date(checkOut);
+    return (d2 - d1) / (1000 * 60 * 60 * 24);
+  };
 
-    // Validate dates
+  const nights = getNights();
+  const total = nights * roomType.price;
+
+  // Open booking dialog
+  const handleOpen = async () => {
+
     if (!checkIn || !checkOut) {
-      alert("Please select check-in and check-out dates first.");
+      alert("Select dates first");
       return;
     }
 
-    setLoading(true);
-
     try {
-
-      // 1️⃣ Check upgrade suggestion
-      const upgrade = await api.post(
+      const res = await api.post(
         "/api/guest/rooms/upgrade-suggestion",
         {
           roomTypeId: roomType.roomTypeId,
@@ -35,24 +48,29 @@ export default function RoomCard({ roomType, checkIn, checkOut }) {
         }
       );
 
+      setUpgrade(res.data);
+      setOpen(true);
+
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  // Confirm booking
+  const confirmBooking = async () => {
+
+    setLoading(true);
+
+    try {
+
       let finalRoomType = roomType.roomTypeId;
       let upgradeAccepted = false;
 
-      // 2️⃣ If upgrade available show popup
-      if (upgrade.data.available) {
-
-        const confirmUpgrade = window.confirm(
-          `Upgrade available!\n\nUpgrade to ${upgrade.data.roomTypeName}\nExtra price: ₹${upgrade.data.priceDifference} per night\n\nDo you want to upgrade?`
-        );
-
-        if (confirmUpgrade) {
-          finalRoomType = upgrade.data.roomTypeId;
-          upgradeAccepted = true;
-        }
-
+      if (upgrade?.available) {
+        finalRoomType = upgrade.roomTypeId;
+        upgradeAccepted = true;
       }
 
-      // 3️⃣ Create booking
       await api.post("/api/guest/rooms/book", {
         roomTypeId: finalRoomType,
         checkIn,
@@ -60,72 +78,100 @@ export default function RoomCard({ roomType, checkIn, checkOut }) {
         upgradeAccepted
       });
 
-      alert("Room booked successfully!");
+      alert("Booking successful!");
+      setOpen(false);
 
     } catch (err) {
-
-      console.error("Booking failed", err);
-      alert("Booking failed. Please try again.");
-
+      console.error(err);
+      alert("Booking failed");
     } finally {
       setLoading(false);
     }
-
   };
 
   return (
+    <>
+      <Card>
+        <CardContent>
 
-    <Card>
+          <Typography variant="h6">
+            {roomType.name}
+          </Typography>
 
-      <CardContent>
+          <Typography>{roomType.description}</Typography>
 
-        <Typography variant="h6">
-          {roomType.name}
-        </Typography>
+          <Typography>
+            Capacity: {roomType.capacity}
+          </Typography>
 
-        <Typography>
-          {roomType.description}
-        </Typography>
+          <Typography>
+            Price: ₹{roomType.price} / night
+          </Typography>
 
-        <Typography>
-          Capacity: {roomType.capacity} Guests
-        </Typography>
+          <Typography>
+            Available: {roomType.availableRooms}
+          </Typography>
 
-        <Typography>
-          Bed: {roomType.bedType}
-        </Typography>
+          <Stack mt={2}>
+            <Button variant="contained" onClick={handleOpen}>
+              Book Now
+            </Button>
+          </Stack>
 
-        <Typography>
-          Size: {roomType.roomSize} m²
-        </Typography>
+        </CardContent>
+      </Card>
 
-        <Typography>
-          Amenities: {roomType.amenities}
-        </Typography>
+      {/* BOOKING DIALOG */}
+      <Dialog open={open} onClose={() => setOpen(false)}>
 
-        <Typography>
-          Price: ₹{roomType.price} / night
-        </Typography>
+        <DialogTitle>Confirm Booking</DialogTitle>
 
-        <Typography>
-          Available: {roomType.availableRooms}
-        </Typography>
+        <DialogContent>
 
-        <Stack mt={2}>
+          <Typography>
+            Room: {roomType.name}
+          </Typography>
+
+          <Typography>
+            Nights: {nights}
+          </Typography>
+
+          <Typography>
+            Price per night: ₹{roomType.price}
+          </Typography>
+
+          <Typography fontWeight="bold">
+            Total: ₹{total}
+          </Typography>
+
+          {/* Upgrade Suggestion */}
+          {upgrade?.available && (
+            <Typography color="primary" mt={2}>
+              Upgrade available → {upgrade.roomTypeName}
+              <br />
+              Extra: ₹{upgrade.priceDifference}/night
+            </Typography>
+          )}
+
+        </DialogContent>
+
+        <DialogActions>
+
+          <Button onClick={() => setOpen(false)}>
+            Cancel
+          </Button>
 
           <Button
             variant="contained"
-            onClick={bookRoom}
+            onClick={confirmBooking}
             disabled={loading}
           >
-            {loading ? "Booking..." : "Book Room"}
+            {loading ? "Booking..." : "Confirm"}
           </Button>
 
-        </Stack>
+        </DialogActions>
 
-      </CardContent>
-
-    </Card>
-
+      </Dialog>
+    </>
   );
 }

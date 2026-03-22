@@ -46,6 +46,14 @@ const StaffSidebar = () => {
     });
   }
 
+  if (staffType === "FRONT_DESK") {
+    menu.push({
+      label: "QR Scanner",
+      path: "/staff/frontdesk/qr",
+    });
+  }
+
+
   // Housekeeping features
   if (staffType === "HOUSEKEEPING") {
     menu.push({

@@ -44,6 +44,7 @@ import ServiceHistory from "../pages/staff/services/ServiceHistory";
 /* Front Desk Module */
 import FrontDeskDashboard from "../pages/staff/frontdesk/FrontDeskDashboard";
 import BookingsPage from "../pages/staff/frontdesk/BookingsPage";
+import QrScannerPage from "../pages/staff/frontdesk/QrScannerPage";
 
 /* Housekeeping Module */
 import HousekeepingDashboard from "../pages/staff/housekeeping/HousekeepingDashboard";
@@ -103,6 +104,7 @@ function AppRoutes() {
         {/* Front Desk */}
         <Route path="frontdesk/dashboard" element={<FrontDeskDashboard />} />
         <Route path="frontdesk/bookings" element={<BookingsPage />} />
+        <Route path="frontdesk/qr" element={<QrScannerPage />} />
 
         {/* Housekeeping */}
         <Route

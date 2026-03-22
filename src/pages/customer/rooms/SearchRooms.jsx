@@ -20,6 +20,11 @@ export default function SearchRooms() {
 
   const searchRooms = async () => {
 
+    if (!checkIn || !checkOut) {
+      alert("Please select dates");
+      return;
+    }
+
     try {
 
       const res = await api.post(
@@ -46,11 +51,7 @@ export default function SearchRooms() {
         Search Available Rooms
       </Typography>
 
-      <Stack
-        direction="row"
-        spacing={2}
-        mb={3}
-      >
+      <Stack direction="row" spacing={2} mb={3}>
 
         <TextField
           label="Check-In"
@@ -68,10 +69,7 @@ export default function SearchRooms() {
           onChange={(e) => setCheckOut(e.target.value)}
         />
 
-        <Button
-          variant="contained"
-          onClick={searchRooms}
-        >
+        <Button variant="contained" onClick={searchRooms}>
           Search
         </Button>
 
@@ -96,6 +94,5 @@ export default function SearchRooms() {
       </Grid>
 
     </Box>
-
   );
 }
