@@ -27,7 +27,8 @@ import SearchRooms from "../pages/customer/rooms/SearchRooms";
 import MyServiceRequests from "../pages/customer/services/MyServiceRequests";
 import CustomerBill from "../pages/customer/billing/CustomerBill";
 import MyBookings from "../pages/customer/bookings/MyBookings";
-
+import PaymentPage from "../pages/customer/payment/PaymentPage";
+import PaymentSuccess from "../pages/customer/payment/PaymentSuccess";
 
 /* Staff Layout */
 import StaffLayout from "../layouts/StaffLayout";
@@ -127,7 +128,8 @@ function AppRoutes() {
         <Route path="rooms" element={<SearchRooms />} />
         <Route path="/customer/bill" element={<CustomerBill />} />
         <Route path="/customer/bookings" element={<MyBookings />} />
-
+<Route path="/customer/payment" element={<PaymentPage />} />
+<Route path="/customer/payment-success" element={<PaymentSuccess />} />
 
         <Route
           path="/customer/services"

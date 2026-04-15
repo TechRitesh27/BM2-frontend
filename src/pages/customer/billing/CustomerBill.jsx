@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "../../../api/axios";
+import { useNavigate } from "react-router-dom";
 
 import {
   Box,
@@ -7,7 +8,8 @@ import {
   Paper,
   Stack,
   CircularProgress,
-  Alert
+  Alert,
+  Button
 } from "@mui/material";
 
 import BillItemsTable from "./BillItemsTable";
@@ -19,12 +21,11 @@ export default function CustomerBill() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
+  const navigate = useNavigate();
+
   const fetchBill = async () => {
-
     try {
-
       const billRes = await api.get("/api/guest/account/bill");
-
       setBill(billRes.data);
 
       const itemsRes = await api.get(
@@ -32,13 +33,9 @@ export default function CustomerBill() {
       );
 
       setItems(itemsRes.data || []);
-
     } catch (err) {
-
       setError("Failed to load bill");
-
     } finally {
-
       setLoading(false);
     }
   };
@@ -46,6 +43,15 @@ export default function CustomerBill() {
   useEffect(() => {
     fetchBill();
   }, []);
+
+  const handlePayment = () => {
+    navigate("/customer/payment", {
+      state: {
+        billId: bill.id,
+        amount: bill.totalAmount
+      }
+    });
+  };
 
   if (loading) {
     return (
@@ -56,19 +62,11 @@ export default function CustomerBill() {
   }
 
   if (error) {
-    return (
-      <Alert severity="error">
-        {error}
-      </Alert>
-    );
+    return <Alert severity="error">{error}</Alert>;
   }
 
   if (!bill) {
-    return (
-      <Typography>
-        No active bill found
-      </Typography>
-    );
+    return <Typography>No active bill found</Typography>;
   }
 
   return (
@@ -82,13 +80,9 @@ export default function CustomerBill() {
 
         <Stack spacing={1}>
 
-          <Typography>
-            <b>Bill ID:</b> {bill.id}
-          </Typography>
+          <Typography><b>Bill ID:</b> {bill.id}</Typography>
 
-          <Typography>
-            <b>Status:</b> {bill.status}
-          </Typography>
+          <Typography><b>Status:</b> {bill.status}</Typography>
 
           <Typography>
             <b>Created:</b>{" "}
@@ -98,6 +92,18 @@ export default function CustomerBill() {
           <Typography variant="h6">
             Total Amount: ₹{bill.totalAmount}
           </Typography>
+
+          <Button
+            variant="contained"
+            onClick={handlePayment}
+            sx={{
+              mt: 2,
+              backgroundColor: "#caa169",
+              "&:hover": { backgroundColor: "#b8955a" }
+            }}
+          >
+            Pay Now
+          </Button>
 
         </Stack>
 
