@@ -47,6 +47,7 @@ export default function CustomerBill() {
   const handlePayment = () => {
     navigate("/customer/payment", {
       state: {
+        bookingId: bill.booking?.id,
         billId: bill.id,
         amount: bill.totalAmount
       }

@@ -20,7 +20,7 @@ export default function PaymentPage() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const { bookingId, amount } = location.state || {};
+  const { bookingId, billId, amount } = location.state || {};
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
