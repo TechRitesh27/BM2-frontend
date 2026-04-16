@@ -1,21 +1,24 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../api/axios";
+import { Box, CircularProgress } from "@mui/material";
 import StaffStatsCards from "./components/StaffStatsCards";
 
 export default function StaffDashboard() {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    axios
-      .get("/api/staff/dashboard", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-      .then((res) => setData(res.data));
+    api.get("/api/staff/dashboard")
+      .then((res) => setData(res.data))
+      .catch((err) => console.error("Failed to load staff dashboard", err));
   }, []);
 
-  if (!data) return <div>Loading...</div>;
+  if (!data) {
+    return (
+      <Box textAlign="center" mt={5}>
+        <CircularProgress />
+      </Box>
+    );
+  }
 
-  return <StaffStatsCards data={data} />;
+  return <StaffStatsCards stats={data} />;
 }

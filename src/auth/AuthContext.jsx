@@ -50,12 +50,16 @@ export const AuthProvider = ({ children }) => {
     return res.data;
   };
 
-  const logout = () => {
-
-    localStorage.clear();
-    setUser(null);
-
-    window.location.href = "/login";
+  const logout = async () => {
+    try {
+      await api.post("/api/auth/logout");
+    } catch {
+      // ignore — clear session regardless
+    } finally {
+      localStorage.clear();
+      setUser(null);
+      window.location.href = "/login";
+    }
   };
 
   return (

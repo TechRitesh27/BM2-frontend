@@ -126,19 +126,11 @@ function AppRoutes() {
       >
         <Route index element={<CustomerDashboard />} />
         <Route path="rooms" element={<SearchRooms />} />
-        <Route path="/customer/bill" element={<CustomerBill />} />
-        <Route path="/customer/bookings" element={<MyBookings />} />
-<Route path="/customer/payment" element={<PaymentPage />} />
-<Route path="/customer/payment-success" element={<PaymentSuccess />} />
-
-        <Route
-          path="/customer/services"
-          element={
-            <ProtectedRoute role="GUEST">
-              <MyServiceRequests />
-            </ProtectedRoute>
-          }
-        />
+        <Route path="bill" element={<CustomerBill />} />
+        <Route path="bookings" element={<MyBookings />} />
+        <Route path="payment" element={<PaymentPage />} />
+        <Route path="payment-success" element={<PaymentSuccess />} />
+        <Route path="services" element={<MyServiceRequests />} />
       </Route>
 
       {/* 404 FALLBACK */}

@@ -1,81 +1,121 @@
-import React from "react";
-import axios from "axios";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { Box, Typography, Button, CircularProgress, Alert } from "@mui/material";
+import api from "../../../api/axios";
 
-const PaymentPage = () => {
+const RAZORPAY_KEY = import.meta.env.VITE_RAZORPAY_KEY;
+
+// Dynamically load Razorpay SDK
+const loadRazorpay = () =>
+  new Promise((resolve) => {
+    if (window.Razorpay) return resolve(true);
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.onload = () => resolve(true);
+    script.onerror = () => resolve(false);
+    document.body.appendChild(script);
+  });
+
+export default function PaymentPage() {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const { bookingId, amount } = location.state || {};
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (!bookingId || !amount) {
+      navigate("/customer/bill");
+    }
+  }, [bookingId, amount, navigate]);
 
   const handlePayment = async () => {
+    setLoading(true);
+    setError("");
+
     try {
-      // 1. Create order from backend
-      const response = await axios.post("http://localhost:8081/api/payment/create-order", {
-        amount: amount   // in paise (₹50)
+      const sdkLoaded = await loadRazorpay();
+      if (!sdkLoaded) {
+        setError("Failed to load payment gateway. Please try again.");
+        return;
+      }
+
+      const res = await api.post("/api/payments/create-order", {
+        bookingId,
+        amount
       });
 
-    console.log("Backend Response:", response.data);
+      const order = res.data;
 
-    const order = response.data;
-
-    if (!window.Razorpay) {
-      alert("Razorpay SDK not loaded");
-      return;
-    }
-      // 2. Razorpay options
       const options = {
-        key: "rzp_test_SYHr69TaJWpviq", // from Razorpay dashboard
+        key: RAZORPAY_KEY,
         amount: order.amount,
         currency: "INR",
-        name: "Hotel Booking",
-        description: "Room Payment",
+        name: "BM Group of Hotels",
+        description: "Room Booking Payment",
         order_id: order.orderId,
 
-        handler: function (response) {
-          alert("Payment Successful ✅");
-          console.log(response);
+        handler: async (response) => {
+          try {
+            await api.post("/api/payments/verify", {
+              razorpayOrderId: response.razorpay_order_id,
+              razorpayPaymentId: response.razorpay_payment_id,
+              razorpaySignature: response.razorpay_signature
+            });
+            navigate("/customer/payment-success");
+          } catch {
+            setError("Payment verification failed. Contact support.");
+          }
         },
 
         prefill: {
-          name: "Pranjal",
-          email: "user@gmail.com",
-          contact: "9999999999"
+          name: "",
+          email: "",
+          contact: ""
         },
 
-        theme: {
-          color: "#caa169"
-        }
+        theme: { color: "#caa169" }
       };
 
       const rzp = new window.Razorpay(options);
+      rzp.on("payment.failed", () => {
+        setError("Payment failed. Please try again.");
+      });
       rzp.open();
-
-    } catch (error) {
-      console.error("Payment Error:", error);
-      alert("Payment Failed ❌");
+    } catch (err) {
+      setError(err.response?.data?.message || "Payment initiation failed.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div style={styles.container}>
-      <h2>Complete Your Booking</h2>
-      <button style={styles.button} onClick={handlePayment}>
-        Pay Now
-      </button>
-    </div>
+    <Box textAlign="center" mt={10}>
+      <Typography variant="h5" mb={2}>
+        Complete Your Payment
+      </Typography>
+
+      <Typography variant="h6" mb={3}>
+        Amount: ₹{amount}
+      </Typography>
+
+      {error && (
+        <Alert severity="error" sx={{ mb: 2, maxWidth: 400, mx: "auto" }}>
+          {error}
+        </Alert>
+      )}
+
+      <Button
+        variant="contained"
+        size="large"
+        onClick={handlePayment}
+        disabled={loading}
+        sx={{ backgroundColor: "#caa169", "&:hover": { backgroundColor: "#b8955a" } }}
+      >
+        {loading ? <CircularProgress size={24} color="inherit" /> : "Pay Now"}
+      </Button>
+    </Box>
   );
-};
-
-const styles = {
-  container: {
-    textAlign: "center",
-    marginTop: "100px"
-  },
-  button: {
-    padding: "12px 25px",
-    fontSize: "18px",
-    backgroundColor: "#caa169",
-    color: "white",
-    border: "none",
-    borderRadius: "8px",
-    cursor: "pointer"
-  }
-};
-
-export default PaymentPage;
+}

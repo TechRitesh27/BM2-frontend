@@ -80,9 +80,6 @@ export default function QrScannerPage() {
     resetScanner();
   };
 
-  // ===============================
-  // CHECK-OUT
-  // ===============================
   const handleCheckOut = async () => {
     await api.put(`/api/staff/frontdesk/bookings/${booking.id}/check-out`);
     alert("Checked-out successfully");

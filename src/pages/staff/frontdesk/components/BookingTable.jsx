@@ -13,19 +13,13 @@ import api from "../../../../api/axios";
 export default function BookingTable({ bookings = [], refresh }) {
 
   const handleCheckIn = async (id) => {
-
-    await api.put(`/api/staff/frontdesk/bookings/${id}/checkin`);
-
+    await api.put(`/api/staff/frontdesk/bookings/${id}/check-in`);
     refresh();
-
   };
 
   const handleCheckOut = async (id) => {
-
-    await api.put(`/api/staff/frontdesk/bookings/${id}/checkout`);
-
+    await api.put(`/api/staff/frontdesk/bookings/${id}/check-out`);
     refresh();
-
   };
 
   return (
