@@ -1,40 +1,30 @@
-import { Grid, Paper, Typography } from "@mui/material";
+import { Grid, Paper, Typography, Box } from "@mui/material";
 
 export default function StaffStatsCards({ stats }) {
+  const cards = [
+    { label: "Pending Services",   value: stats?.pendingRequests      ?? stats?.pendingServices      ?? "--" },
+    { label: "My Assignments",     value: stats?.myAssignedRequests   ?? stats?.assignedServices     ?? "--" },
+    { label: "Completed Today",    value: stats?.completedToday                                      ?? "--" },
+    { label: "Revenue Generated",  value: stats?.serviceRevenueGenerated != null
+                                           ? `₹${stats.serviceRevenueGenerated.toLocaleString()}`
+                                           : "--" },
+    { label: "Department",         value: stats?.departmentName                                      ?? "--" },
+  ];
 
   return (
-
     <Grid container spacing={3}>
-
-      <Grid item xs={12} md={4}>
-        <Paper sx={{ p: 3 }}>
-          <Typography variant="h6">Pending Services</Typography>
-          <Typography variant="h4">
-            {stats?.pendingServices ?? "--"}
-          </Typography>
-        </Paper>
-      </Grid>
-
-      <Grid item xs={12} md={4}>
-        <Paper sx={{ p: 3 }}>
-          <Typography variant="h6">Assigned Services</Typography>
-          <Typography variant="h4">
-            {stats?.assignedServices ?? "--"}
-          </Typography>
-        </Paper>
-      </Grid>
-
-      <Grid item xs={12} md={4}>
-        <Paper sx={{ p: 3 }}>
-          <Typography variant="h6">Completed Today</Typography>
-          <Typography variant="h4">
-            {stats?.completedToday ?? "--"}
-          </Typography>
-        </Paper>
-      </Grid>
-
+      {cards.map((card) => (
+        <Grid item xs={12} md={4} key={card.label}>
+          <Paper sx={{ p: 3 }}>
+            <Typography variant="subtitle2" color="text.secondary">
+              {card.label}
+            </Typography>
+            <Typography variant="h4" mt={1}>
+              {card.value}
+            </Typography>
+          </Paper>
+        </Grid>
+      ))}
     </Grid>
-
   );
-
 }

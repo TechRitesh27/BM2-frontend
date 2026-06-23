@@ -1,8 +1,8 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || "http://localhost:8081",
-  timeout: 10000,
+  baseURL: import.meta.env.VITE_API_URL || "",  // empty = use vite proxy in dev
+  timeout: 15000,
   headers: {
     "Content-Type": "application/json"
   }
@@ -58,7 +58,7 @@ api.interceptors.response.use(
 
       try {
         const res = await axios.post(
-          `${import.meta.env.VITE_API_URL || "http://localhost:8081"}/api/auth/refresh`,
+          `${import.meta.env.VITE_API_URL || ""}/api/auth/refresh`,
           { refreshToken: localStorage.getItem("refreshToken") }
         );
 

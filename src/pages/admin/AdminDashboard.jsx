@@ -74,7 +74,7 @@ const AdminDashboard = () => {
       {revenue.length > 0 && (
         <Paper sx={{ p: 3 }}>
           <Typography variant="h6" mb={2}>Revenue Trend (Last 12 Months)</Typography>
-          <RevenueChart data={revenue.map((r) => ({ date: r.month, revenue: r.revenue }))} />
+          <RevenueChart data={revenue} />
         </Paper>
       )}
     </>

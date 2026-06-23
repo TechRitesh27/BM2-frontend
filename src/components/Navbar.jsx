@@ -1,35 +1,26 @@
-import {
-  AppBar,
-  Toolbar,
-  Typography,
-  Button,
-  Box
-} from "@mui/material";
-
+import { AppBar, Toolbar, Typography, Button, Box, Chip } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
 
-const Navbar = () => {
+const roleLabel = { ADMIN: "Admin", STAFF: "Staff", GUEST: "Guest" };
+const roleColor = { ADMIN: "error", STAFF: "warning", GUEST: "primary" };
 
+const Navbar = () => {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
 
   const goDashboard = () => {
     if (!user) return;
-
     if (user.role === "ADMIN") navigate("/admin");
     else if (user.role === "STAFF") navigate("/staff");
     else navigate("/customer");
   };
 
-  const navButtonStyle = {
+  const navBtn = {
     color: "black",
     textTransform: "none",
-    fontSize: "16px",
-    "&:hover": {
-      color: "#d1800d",
-      background: "transparent"
-    }
+    fontSize: "15px",
+    "&:hover": { color: "#d1800d", background: "transparent" }
   };
 
   return (
@@ -43,43 +34,35 @@ const Navbar = () => {
       }}
     >
       <Toolbar>
-
         <Typography
           variant="h6"
-          sx={{ flexGrow: 1, cursor: "pointer", color: "black" }}
+          sx={{ flexGrow: 1, cursor: "pointer", color: "black", fontWeight: 600 }}
           onClick={() => navigate("/")}
         >
           BM Group of Hotels
         </Typography>
 
-        <Button sx={navButtonStyle} onClick={() => navigate("/")}>
-          Home
-        </Button>
+        <Button sx={navBtn} onClick={() => navigate("/")}>Home</Button>
 
         {!user && (
-          <Button sx={navButtonStyle} onClick={() => navigate("/login")}>
-            Login
-          </Button>
-        )}
-
-        {!user && (
-          <Button sx={navButtonStyle} onClick={() => navigate("/register")}>
-            Register
-          </Button>
+          <>
+            <Button sx={navBtn} onClick={() => navigate("/login")}>Login</Button>
+            <Button sx={navBtn} onClick={() => navigate("/register")}>Register</Button>
+          </>
         )}
 
         {user && (
-          <Box>
-            <Button sx={navButtonStyle} onClick={goDashboard}>
-              Dashboard
-            </Button>
-
-            <Button sx={navButtonStyle} onClick={logout}>
-              Logout
-            </Button>
+          <Box display="flex" alignItems="center" gap={1}>
+            <Chip
+              label={`${roleLabel[user.role] || user.role}${user.staffType ? ` · ${user.staffType}` : ""}`}
+              color={roleColor[user.role] || "default"}
+              size="small"
+              variant="outlined"
+            />
+            <Button sx={navBtn} onClick={goDashboard}>Dashboard</Button>
+            <Button sx={navBtn} onClick={logout}>Logout</Button>
           </Box>
         )}
-
       </Toolbar>
     </AppBar>
   );

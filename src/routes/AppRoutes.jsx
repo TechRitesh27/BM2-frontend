@@ -4,6 +4,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
+import Unauthorized from "../pages/Unauthorized";
 
 /* Auth */
 import ProtectedRoute from "../auth/ProtectedRoute";
@@ -29,6 +30,7 @@ import CustomerBill from "../pages/customer/billing/CustomerBill";
 import MyBookings from "../pages/customer/bookings/MyBookings";
 import PaymentPage from "../pages/customer/payment/PaymentPage";
 import PaymentSuccess from "../pages/customer/payment/PaymentSuccess";
+import CustomerProfile from "../pages/customer/profile/CustomerProfile";
 
 /* Staff Layout */
 import StaffLayout from "../layouts/StaffLayout";
@@ -65,6 +67,7 @@ function AppRoutes() {
         element={token ? <Navigate to="/" replace /> : <Login />}
       />
       <Route path="/register" element={<Register />} />
+      <Route path="/unauthorized" element={<Unauthorized />} />
 
       {/* ================= ADMIN ================= */}
       <Route
@@ -131,6 +134,7 @@ function AppRoutes() {
         <Route path="payment" element={<PaymentPage />} />
         <Route path="payment-success" element={<PaymentSuccess />} />
         <Route path="services" element={<MyServiceRequests />} />
+        <Route path="profile" element={<CustomerProfile />} />
       </Route>
 
       {/* 404 FALLBACK */}
