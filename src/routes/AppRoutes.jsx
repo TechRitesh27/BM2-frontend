@@ -38,6 +38,7 @@ import StaffLayout from "../layouts/StaffLayout";
 /* Staff Core */
 import StaffRedirect from "../pages/staff/StaffRedirect";
 import StaffDashboard from "../pages/staff/StaffDashboard";
+import StaffProfile from "../pages/staff/profile/StaffProfile";
 
 /* Staff Service Module */
 import PendingServices from "../pages/staff/services/PendingServices";
@@ -52,6 +53,10 @@ import QrScannerPage from "../pages/staff/frontdesk/QrScannerPage";
 /* Housekeeping Module */
 import HousekeepingDashboard from "../pages/staff/housekeeping/HousekeepingDashboard";
 import RoomCleaningPage from "../pages/staff/housekeeping/RoomCleaningPage";
+
+/* Maintenance Module */
+import MaintenanceDashboard from "../pages/staff/maintenance/MaintenanceDashboard";
+import MaintenanceRoomsPage from "../pages/staff/maintenance/MaintenanceRoomsPage";
 
 function AppRoutes() {
   const token = localStorage.getItem("accessToken");
@@ -99,6 +104,7 @@ function AppRoutes() {
 
         {/* Generic dashboard */}
         <Route path="dashboard" element={<StaffDashboard />} />
+        <Route path="profile" element={<StaffProfile />} />
 
         {/* Service requests */}
         <Route path="pending" element={<PendingServices />} />
@@ -111,11 +117,12 @@ function AppRoutes() {
         <Route path="frontdesk/qr" element={<QrScannerPage />} />
 
         {/* Housekeeping */}
-        <Route
-          path="housekeeping/dashboard"
-          element={<HousekeepingDashboard />}
-        />
+        <Route path="housekeeping/dashboard" element={<HousekeepingDashboard />} />
         <Route path="housekeeping/rooms" element={<RoomCleaningPage />} />
+
+        {/* Maintenance */}
+        <Route path="maintenance/dashboard" element={<MaintenanceDashboard />} />
+        <Route path="maintenance/rooms" element={<MaintenanceRoomsPage />} />
       </Route>
 
       {/* ================= CUSTOMER ================= */}

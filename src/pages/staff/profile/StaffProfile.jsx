@@ -1,12 +1,11 @@
 import { useState, useEffect } from "react";
 import {
   Box, Typography, Paper, TextField, Button,
-  Divider, Alert, Stack, CircularProgress, Grid
+  Divider, Alert, Stack, CircularProgress, Grid, Chip
 } from "@mui/material";
 import api from "../../../api/axios";
 
-export default function CustomerProfile() {
-  // Profile data
+export default function StaffProfile() {
   const [profile, setProfile]   = useState(null);
   const [name, setName]         = useState("");
   const [phone, setPhone]       = useState("");
@@ -15,7 +14,6 @@ export default function CustomerProfile() {
   const [profileError, setProfileError]     = useState("");
   const [saving, setSaving]     = useState(false);
 
-  // Password change
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword]         = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -52,16 +50,8 @@ export default function CustomerProfile() {
   const handleChangePassword = async (e) => {
     e.preventDefault();
     setPassSuccess(""); setPassError("");
-
-    if (newPassword !== confirmPassword) {
-      setPassError("New passwords do not match");
-      return;
-    }
-    if (newPassword.length < 6) {
-      setPassError("Password must be at least 6 characters");
-      return;
-    }
-
+    if (newPassword !== confirmPassword) { setPassError("Passwords do not match"); return; }
+    if (newPassword.length < 6)         { setPassError("Minimum 6 characters"); return; }
     setPassLoading(true);
     try {
       await api.post("/api/auth/change-password", { currentPassword, newPassword });
@@ -80,30 +70,27 @@ export default function CustomerProfile() {
     <Box maxWidth={600}>
       <Typography variant="h4" mb={3}>My Profile</Typography>
 
-      {/* ── Profile Info ── */}
       <Paper sx={{ p: 3, mb: 3 }}>
-        <Typography variant="h6" mb={1}>Personal Information</Typography>
+        <Stack direction="row" justifyContent="space-between" alignItems="center" mb={1}>
+          <Typography variant="h6">Staff Information</Typography>
+          {profile?.staffType && (
+            <Chip label={profile.staffType.name} color="primary" size="small" />
+          )}
+        </Stack>
         <Divider sx={{ mb: 2 }} />
 
         {profileSuccess && <Alert severity="success" sx={{ mb: 2 }}>{profileSuccess}</Alert>}
         {profileError   && <Alert severity="error"   sx={{ mb: 2 }}>{profileError}</Alert>}
 
-        {/* Read-only fields */}
         <Grid container spacing={2} mb={2}>
           <Grid item xs={12} sm={6}>
-            <TextField
-              fullWidth label="Email" value={profile?.email || ""} disabled
-              helperText="Email cannot be changed"
-            />
+            <TextField fullWidth label="Email" value={profile?.email || ""} disabled />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <TextField
-              fullWidth label="Role" value={profile?.role?.name || ""} disabled
-            />
+            <TextField fullWidth label="Department" value={profile?.staffType?.name || "N/A"} disabled />
           </Grid>
         </Grid>
 
-        {/* Editable fields */}
         <form onSubmit={handleProfileSave}>
           <Stack spacing={2}>
             <TextField
@@ -113,7 +100,6 @@ export default function CustomerProfile() {
             <TextField
               fullWidth label="Phone Number"
               value={phone} onChange={e => setPhone(e.target.value)}
-              inputProps={{ maxLength: 15 }}
             />
             <Button type="submit" variant="contained" disabled={saving} sx={{ alignSelf: "flex-start" }}>
               {saving ? "Saving..." : "Save Changes"}
@@ -122,7 +108,6 @@ export default function CustomerProfile() {
         </form>
       </Paper>
 
-      {/* ── Change Password ── */}
       <Paper sx={{ p: 3 }}>
         <Typography variant="h6" mb={1}>Change Password</Typography>
         <Divider sx={{ mb: 2 }} />

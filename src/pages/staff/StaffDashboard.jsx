@@ -1,24 +1,23 @@
 import { useEffect, useState } from "react";
 import api from "../../api/axios";
-import { Box, CircularProgress } from "@mui/material";
+import { Box, CircularProgress, Alert } from "@mui/material";
 import StaffStatsCards from "./components/StaffStatsCards";
 
 export default function StaffDashboard() {
   const [data, setData] = useState(null);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     api.get("/api/staff/dashboard")
       .then((res) => setData(res.data))
-      .catch((err) => console.error("Failed to load staff dashboard", err));
+      .catch(() => setError("Failed to load dashboard"));
   }, []);
 
-  if (!data) {
-    return (
-      <Box textAlign="center" mt={5}>
-        <CircularProgress />
-      </Box>
-    );
-  }
+  if (error) return <Alert severity="error">{error}</Alert>;
+
+  if (!data) return (
+    <Box textAlign="center" mt={5}><CircularProgress /></Box>
+  );
 
   return <StaffStatsCards stats={data} />;
 }
